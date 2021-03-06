@@ -1,0 +1,6 @@
+{
+  "ruby.rubocop.configFilePath": "/home/mohamed/.rvm/gems/ruby-3.0.0/bin/",
+  "solargraph.commandPath": "/home/mohamed/.rvm/gems/ruby-3.0.0/bin/solargraph",
+  "ruby.rubocop.useBundler": true,
+  "solargraph.useBundler": true
+}
