@@ -31,3 +31,9 @@
 
 en:
   hello: "Hello world"
+  slack:
+    reporter:
+      task_assigned: "Task *%{content}* has been assigned to *%{assignee_name}*"
+      task_assigned_errors: "Task was not assigned due to the following errors: (%{errors})"
+    assignee:
+    task_assigned: "Task *%{content}* has been assigned to you by *%{reporter_name}*"
