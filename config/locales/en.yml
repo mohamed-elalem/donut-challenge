@@ -32,8 +32,19 @@
 en:
   hello: "Hello world"
   slack:
+    tasks:
+      empty:
+        completed: "> You have no completed tasks"
+        remaining: "> You have no remaining tasks"
     reporter:
       task_assigned: "Task *%{content}* has been assigned to *%{assignee_name}*"
       task_assigned_errors: "Task was not assigned due to the following errors: (%{errors})"
+      task_marked_as_completed: "Task *#%{task_id}* is marked as completed by *%{assignee_name}*"
     assignee:
-    task_assigned: "Task *%{content}* has been assigned to you by *%{reporter_name}*"
+      task_assigned: "Task *%{content}* has been assigned to you by *%{reporter_name}*"
+      remaining_tasks: "Tasks remaining:\n%{tasks_list}"
+      completed_tasks: "Tasks completed:\n%{tasks_list}"
+      single_remaining_task: "- Task *#%{task_id}* - \"*%{task_content}*\" was reported by *%{task_reporter_name} %{task_created_at} ago"
+      single_completed_task: "- Task *#%{task_id}* - \"*%{task_content}*\" was reported by *%{task_reporter_name} and completed %{task_updated_at} ago"
+      task_marked_as_completed: "Task *#%{task_id}* is marked as completed"
+      task_not_found: "Task *#%{task_id}* does not exist"
