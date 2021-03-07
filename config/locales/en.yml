@@ -31,6 +31,10 @@
 
 en:
   hello: "Hello world"
+  models:
+    task:
+      errors:
+        reporter_assignee_different: Reporter cannot report a task to himself
   slack:
     tasks:
       empty:
@@ -48,3 +52,11 @@ en:
       single_completed_task: "- Task *#%{task_id}* - \"*%{task_content}*\" was reported by *%{task_reporter_name} and completed %{task_updated_at} ago"
       task_marked_as_completed: "Task *#%{task_id}* is marked as completed"
       task_not_found: "Task *#%{task_id}* does not exist"
+      empty_remaining_tasks: You have no remaining tasks
+  activerecord:
+    models:
+      task:
+        zero: tasks
+        one: task
+        two: tasks
+        other: tasks

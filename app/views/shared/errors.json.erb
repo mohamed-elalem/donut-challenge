@@ -1,0 +1,22 @@
+[
+		{
+			"type": "section",
+			"text": {
+				"type": "plain_text",
+				"text": "Please fix these errors and try again",
+				"emoji": true
+			}
+		},
+		{
+			"type": "divider"
+		}
+    <% resource.errors.full_messages.each do |message| %>
+		,{
+			"type": "section",
+			"text": {
+				"type": "mrkdwn",
+				"text": "*<%= message %>*"
+			}
+		}
+    <% end %>
+	]

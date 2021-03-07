@@ -17,6 +17,7 @@ class Slack::Chain
 
   def end
     @cur.set_next(Slack::End.new)
+    self
   end
 
   def handle(params)

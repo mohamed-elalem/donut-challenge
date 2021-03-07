@@ -1,0 +1,15 @@
+[
+	{
+		"type": "context",
+		"elements": [
+			{
+				"type": "mrkdwn",
+				"text": "Task #<%= task.id%> *<%= task.content %>* has been marked as completed by <@<%= task.assignee.slack_id%>>"
+			},
+			{
+				"type": "mrkdwn",
+				"text": "on <%= task.updated_at_formatted %>"
+			}
+		]
+	}
+]

@@ -4,8 +4,6 @@ class TasksController < ApplicationController
 
   # rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
 
-  before_action :set_current_user
-
   def create_task
     task_assignee = User.find_by(slack_handle: extract_task_assignee(params[:text]))
     task_content = extract_task_content(params[:text])
@@ -36,55 +34,29 @@ class TasksController < ApplicationController
   end
 
   def list_remaining_tasks
-    @tasks = Task.remaining.includes(:reporter)
-    
-    message = I18n.t('slack.tasks.empty.remaining')
-    if @tasks.any?
-      tasks_formatted_list = @tasks.map do |task|
-        I18n.t(
-          'slack.assignee.single_remaining_task',
-          task_id: task.id,
-          task_content: task.content,
-          task_reporter_name: task.reporter.name,
-          task_created_at: time_ago_in_words(task.created_at)
-          )
-      end.join("\n")
-
-      message = I18n.t('slack.assignee.remaining_tasks', tasks_list: tasks_formatted_list)
-    end
+    @tasks = Task.remaining.includes(:reporter, :assignee).where(assignee: { id: @current_user.id})
+    message = JSON.parse(ActionController::Base.render('tasks/assignee/remaining-tasks', locals: { tasks: @tasks }))
 
     slack_client.chat_postMessage(
       channel: @current_user.formatted_slack_handle,
-      text: message
+      blocks: message
     )
 
     head :ok
   end
 
   def list_completed_tasks
-    @tasks = Task.completed.includes(:reporter)
+    @tasks = Task.completed.includes(:reporter, :assignee).where(assignee: { id: @current_user.id})
     
-    message = I18n.t('slack.tasks.empty.completed')
+    message = JSON.parse(ActionController::Base.render('tasks/assignee/completed-tasks', locals: { tasks: @tasks }))
 
-    if @tasks.any?
-      tasks_formatted_list = @tasks.map do |task|
-        I18n.t(
-          'slack.assignee.single_completed_task',
-          task_id: task.id,
-          task_content: task.content,
-          task_reporter_name: task.reporter.name,
-          task_updated_at: time_ago_in_words(task.updated_at)
-          )
-      end.join("\n")
-
-      message = I18n.t('slack.assignee.completed_tasks', tasks_list: tasks_formatted_list)
-    end
-    
-    
     slack_client.chat_postMessage(
       channel: @current_user.formatted_slack_handle,
-      text: message
+      blocks: message
     )
+
+    head :ok
+
 
     head :ok
   end
@@ -116,9 +88,30 @@ class TasksController < ApplicationController
     end
   end
 
-  private
 
-  def set_current_user
-    @current_user = User.find_by(slack_handle: params[:user_name])
+  def create_task_form
+    dialog = JSON.parse(ActionController::Base.render('tasks/task-form'))
+    slack_client.dialog_open(
+      trigger_id: params[:trigger_id],
+      dialog: dialog
+    )
+  end
+
+  def complete_task_form
+    tasks = @current_user.remaining_tasks
+    # binding.pry
+    if tasks.any?
+      dialog = JSON.parse(ActionController::Base.render('tasks/complete-task-form', locals: { tasks: tasks }))
+
+      slack_client.dialog_open(
+        trigger_id: params[:trigger_id],
+        dialog: dialog
+      )
+    else
+      slack_client.chat_postMessage(
+        channel: @current_user.slack_id,
+        text: I18n.t('slack.assignee.empty_remaining_tasks')
+      )
+    end
   end
 end

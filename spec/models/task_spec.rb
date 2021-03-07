@@ -20,7 +20,6 @@ RSpec.describe Task, type: :model do
       task = FactoryBot.build :task
 
       task.save
-      
       expect(task.persisted?).to be_truthy
     end
   end

@@ -1,0 +1,18 @@
+{
+  "callback_id": "complete-task",
+  "title": "Complete task",
+  "submit_label": "Complete",
+  "notify_on_cancel": true,
+  "state": "Limo",
+  "elements": [
+      {
+  "label": "Complete task",
+  "type": "select",
+  "name": "task",
+  "options": [<% tasks.each_with_index do |task, index| %>
+        <%= ',' if index > 0 %>
+        { "label": "<%= task.content %> by <@<%= task.reporter.slack_id%>>", "value": "<%= task.id %>" }
+      <% end %>]
+    }
+  ]
+}
