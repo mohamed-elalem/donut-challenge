@@ -6,12 +6,12 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-client = Slack::Web::Client.new
+client = Slack::Client.instance
 
 users = client.users_list.with_indifferent_access
 
 users[:members].map(&:with_indifferent_access).select do |member|
   !member[:is_bot] && member[:id].downcase != 'uslackbot'
 end.each do |member|
-  User.find_or_create_by(name: member[:real_name].strip, slack_handle: member[:name])
+  User.find_or_create_by(name: member[:real_name].strip, slack_handle: member[:name], slack_id: member[:id])
 end

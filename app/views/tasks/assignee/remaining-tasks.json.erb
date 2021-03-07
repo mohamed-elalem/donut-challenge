@@ -1,0 +1,10 @@
+[
+		{
+			"type": "section",
+			"text": {
+				"type": "mrkdwn",
+				"text": "You got <%= tasks.count %> remaining <%= Task.model_name.human(count: tasks.count) %>"
+			}
+		}
+    <%= render 'tasks/assignee/tasks-list', tasks: tasks %>
+	]

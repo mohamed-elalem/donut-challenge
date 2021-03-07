@@ -1,0 +1,34 @@
+<% tasks.each do |task| %>
+  ,{
+    "type": "divider"
+  },
+  {
+    "type": "context",
+    "elements": [
+      {
+        "type": "mrkdwn",
+        "text": "Task *#<%= task.id %>* has been assigned to you by <@<%= task.reporter.slack_id%>>"
+      },
+      {
+        "type": "mrkdwn",
+        "text": "on <%= task.created_at_formatted %>"
+      }
+      <% if task.done %>
+      ,{
+        "type": "mrkdwn",
+        "text": "and completed on <%= task.updated_at_formatted %>"
+      }
+      <% end %>
+    ]
+  },
+  {
+    "type": "context",
+    "elements": [
+      {
+        "type": "mrkdwn",
+        "text": "<%= task.content %>"
+      }
+    ]
+  }
+
+<% end %>

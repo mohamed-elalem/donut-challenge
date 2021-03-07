@@ -1,0 +1,20 @@
+{
+  "callback_id": "create-task",
+  "title": "Assign task",
+  "submit_label": "Assign",
+  "notify_on_cancel": true,
+  "state": "Limo",
+  "elements": [
+      {
+        "label": "Assignee",
+        "name": "task_assignee",
+        "type": "select",
+        "data_source": "users"
+      },
+      {
+          "type": "text",
+          "label": "Task Content",
+          "name": "content"
+      }
+  ]
+}

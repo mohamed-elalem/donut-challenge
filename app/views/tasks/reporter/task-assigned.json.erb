@@ -1,0 +1,15 @@
+[
+	{
+		"type": "context",
+		"elements": [
+			{
+				"type": "mrkdwn",
+				"text": "Task #<%= task.id%> *<%= task.content %>* has been assigned to <@<%= task.assignee.slack_id%>>"
+			},
+			{
+				"type": "mrkdwn",
+				"text": "on <%= task.created_at_formatted %>"
+			}
+		]
+	}
+]
