@@ -4,8 +4,8 @@ class Slack::CreateTask
 
   def handle(params)
     if params['callback_id'] == 'create-task'
-      reporter = User.find_by(slack_id: params['user']['id'])
-      assignee = User.find_by(slack_id: params['submission']['task_assignee'])
+      reporter = User.find_or_import_by_slack_id(params['user']['id'])
+      assignee = User.find_or_import_by_slack_id(params['submission']['task_assignee'])
       content = params['submission']['content']
     
       create_task(reporter, assignee, content)
