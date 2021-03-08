@@ -10,6 +10,6 @@ class ApplicationController < ActionController::API
   private
 
   def set_current_user
-    @current_user = User.find_by(slack_handle: params[:user_name])
+    @current_user = User.find_or_import_by_slack_id(params[:user_id])
   end
 end

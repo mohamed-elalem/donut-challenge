@@ -99,7 +99,6 @@ class TasksController < ApplicationController
 
   def complete_task_form
     tasks = @current_user.remaining_tasks
-    # binding.pry
     if tasks.any?
       dialog = JSON.parse(ActionController::Base.render('tasks/complete-task-form', locals: { tasks: tasks }))
 
